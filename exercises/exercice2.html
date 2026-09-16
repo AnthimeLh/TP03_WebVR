@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>TP03 WebVR - Exercice 2 : Grabbing</title>
+  <meta name="description" content="Exercice 2 : interaction avec des objets en VR (grab / release avec physique)">
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-physics-system@4.2.2/dist/aframe-physics-system.min.js"></script>
+  <script src="../js/components.js"></script>
+  <style>
+    body { margin: 0; font-family: sans-serif; }
+    #nav { position: fixed; top: 0; left: 0; right: 0; z-index: 10; background: rgba(0,0,0,0.6); color: #fff; padding: 8px 12px; font-size: 14px; }
+    #nav a { color: #9fd3ff; margin-right: 12px; text-decoration: none; }
+    #nav a.active { color: #fff; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div id="nav">
+    <strong>TP03 WebVR</strong> —
+    <a href="../index.html">Accueil</a>
+    <a href="exercice1.html">Ex.1 Scène</a>
+    <a href="exercice2.html" class="active">Ex.2 Grab</a>
+    <a href="exercice3.html">Ex.3 Arme</a>
+    <a href="exercice4.html">Ex.4 Cibles</a>
+  </div>
+
+  <a-scene shadow="type: pcfsoft" physics="gravity: -9.8; debug: false">
+
+    <a-entity light="type: directional; color: #FFFFFF; intensity: 0.8; castShadow: true" position="3 6 2"></a-entity>
+    <a-entity light="type: ambient; color: #BBBBCC; intensity: 0.6"></a-entity>
+
+    <a-plane id="ground" rotation="-90 0 0" width="30" height="30" color="#7BC8A4" shadow="receive: true" static-body></a-plane>
+
+    <!-- Objets saisissables : classe "grabbable" + dynamic-body pour subir la gravite -->
+    <a-box class="grabbable" position="-1 1 -2" width="0.4" height="0.4" depth="0.4" color="#4CC3D9"
+           shadow="cast: true; receive: true" dynamic-body="shape: box; mass: 1"></a-box>
+    <a-sphere class="grabbable" position="1 1 -2" radius="0.25" color="#EF2D5E"
+              shadow="cast: true; receive: true" dynamic-body="shape: sphere; mass: 1"></a-sphere>
+    <a-cylinder class="grabbable" position="0 1 -1.4" radius="0.18" height="0.5" color="#FFC65D"
+                shadow="cast: true; receive: true" dynamic-body="shape: cylinder; mass: 1"></a-cylinder>
+
+    <a-entity id="rig" position="0 0 2">
+      <a-entity id="camera" camera="active: true" look-controls wasd-controls="enabled: false" position="0 1.6 0"></a-entity>
+      <a-entity id="leftHand" oculus-touch-controls="hand: left" thumb-move="rig: #rig" grab-controls></a-entity>
+      <a-entity id="rightHand" oculus-touch-controls="hand: right" thumb-turn="rig: #rig" grab-controls></a-entity>
+    </a-entity>
+
+    <a-text value="Exercice 2 - Grabbing&#10;Grip : saisir / relacher un objet. L'objet tenu suit la main, puis retombe avec gravite."
+            position="0 2.4 -3" align="center" width="6" color="#222"></a-text>
+
+    <a-sky color="#ECECEC"></a-sky>
+  </a-scene>
+</body>
+</html>
